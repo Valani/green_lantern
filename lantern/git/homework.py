@@ -31,7 +31,6 @@ def is_two_objects_is_the_same_objects(first: Any, second: Any) -> bool:
     If @first and @second has same type should return True
     In another case should return False
     """
-
     return first is second
 
 
@@ -52,8 +51,7 @@ def multiple_ints(first_value: int, second_value: int) -> int:
     try:
          return int(first_value)*int(second_value)
     except ValueError as e:
-        print(e)
-
+         raise ValueError
 
 
 def multiple_ints_with_conversion(first_value: Any, second_value: Any) -> int:
@@ -86,8 +84,7 @@ def multiple_ints_with_conversion(first_value: Any, second_value: Any) -> int:
     try:
          return int(first_value)*int(second_value)
     except TypeError as e:
-        print(e)
-
+         raise TypeError
 
 
 def is_word_in_text(word: str, text: str) -> bool:
@@ -106,18 +103,15 @@ def is_word_in_text(word: str, text: str) -> bool:
         >>> False
 
     """
-
     return word in text
-
-
-
 
 
 def some_loop_exercise() -> list:
     """
     Use loop to create list that contain int values from 0 to 12 except 6 and 7
     """
-    return  [item for item in range(0,13,1) if item != 6 and item!=7 ]
+    return [item for item in range(0, 13, 1) if item != 6 and item != 7]
+
 
 def remove_from_list_all_negative_numbers(data: List[int]) -> list:
     """
@@ -128,8 +122,7 @@ def remove_from_list_all_negative_numbers(data: List[int]) -> list:
         remove_from_list_all_negative_numbers([1, 5, -7, 8, -1])
         >>> [1, 5, 8]
     """
-    return [item for item in data if item>0]
-
+    return [item for item in data if item > 0]
 
 
 def alphabet() -> dict:
@@ -139,18 +132,8 @@ def alphabet() -> dict:
     Examples:
         alphabet()
         >>> {"a": 1, "b": 2 ...}
-
-"""
-
-    alpha = 'a'
-    alphabet = {}
-    for item in range(1, 27):
-        alphabet[item] = alpha
-        alpha = chr(ord(alpha) + 1)
-    return alphabet
-
-
-
+    """
+    return {y-64:chr(y).lower() for y in range(65,91)}
 
 
 def simple_sort(data: List[int]) -> List[list]:
@@ -168,3 +151,4 @@ def simple_sort(data: List[int]) -> List[list]:
             j -= 1
         data[j + 1] = key
     return data
+

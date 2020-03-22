@@ -44,27 +44,18 @@ class Cat:
 
     def eat(self, product):
         products = {'fodder': 10, 'apple': 5, "milk": 2}
-        if product in products:
-            self._increase_saturation_level(products[product])
+        self._increase_saturation_level(products.get(product, 0))
 
     def _reduce_saturation_level(self, value):
-        self.saturation_level = self.saturation_level - value
-        if self.saturation_level <= 0:
-            self.saturation_level = 0
-        else:
-            return self.saturation_level
+        self.saturation_level = max(self.saturation_level - value, 0)
 
     def _increase_saturation_level(self, value):
-        self.saturation_level = self.saturation_level + value
-        if self.saturation_level > 100:
-            self.saturation_level = 100
-        else:
-            return self.saturation_level
+        self.saturation_level = min(self.saturation_level + value, 100)
 
     def _set_average_speed(self):
         if self.age <= 7:
             return 12
-        elif 7 < self.age <= 10:
+        elif self.age <= 10:
             return 9
         else:
             return 6
@@ -73,11 +64,11 @@ class Cat:
         dist = self._average_speed * hours
         if dist <= 25:
             self._reduce_saturation_level(2)
-        elif 25 < dist <= 50:
+        elif dist <= 50:
             self._reduce_saturation_level(5)
-        elif 50 < dist <= 100:
+        elif dist <= 100:
             self._reduce_saturation_level(15)
-        elif 100 < dist <= 200:
+        elif dist <= 200:
             self._reduce_saturation_level(25)
         else:
             self._reduce_saturation_level(50)
@@ -109,18 +100,13 @@ class Cheetah(Cat):
     """
 
     def eat(self, product):
-        self.product = product
         products = {"gazelle": 30, "rabbit": 15}
-        for item in products:
-            if product == item:
-                self._increase_saturation_level(products[item])
-            elif product == item:
-                self._increase_saturation_level(products[item])
+        self._increase_saturation_level(products.get(product, 0))
 
     def _set_average_speed(self):
         if self.age <= 5:
             return 90
-        elif 5 < self.age <= 15:
+        elif self.age <= 15:
             return 75
         else:
             return 40
@@ -230,11 +216,9 @@ class Door:
 
     def update_wood_price(self, new_price):
         self.wood_price = new_price
-        return self.wood_price
 
     def update_metal_price(self, new_price):
         self.metal_price = new_price
-        return self.metal_price
 
 
 class House:
@@ -341,10 +325,10 @@ class House:
         return self.__door.door_price(material)
 
     def update_wood_price(self, new_wood_price):
-        return self.__door.update_wood_price(new_wood_price)
+        self.__door.update_wood_price(new_wood_price)
 
     def update_metal_price(self, new_metal_price):
-        return self.__door.update_metal_price(new_metal_price)
+        self.__door.update_metal_price(new_metal_price)
 
     def get_roof_square(self):
         return self.__roof.roof_square()
@@ -364,4 +348,4 @@ class House:
         return sum([item.number_of_rolls_of_wallpaper(roll_width_m, roll_length_m) for item in self.__walls])
 
     def get_room_square(self):
-        return sum(item.wall_square() for item in self.__walls) - (self.get_windows_square() + self.get_door_square())
+        return self.get_walls_square() - (self.get_windows_square() + self.get_door_square())
